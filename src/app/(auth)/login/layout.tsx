@@ -11,7 +11,7 @@ export default function AuthLayout({
       {/* Left Section: Artwork */}
       <div className="relative hidden md:block bg-slate-900">
         <Image
-          src="/holographic-cube.jpg"
+          src="/holographic-cube.svg"
           alt="decorative artwork"
           fill
           className="object-cover"
