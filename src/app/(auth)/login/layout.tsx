@@ -11,14 +11,12 @@ export default function AuthLayout({
       {/* Left Section: Artwork */}
       <div className="relative hidden md:block bg-slate-900">
         <Image
-          src="/holographic-cube.svg"
+          src="/rubic-cube.svg"
           alt="decorative artwork"
           fill
           className="object-cover"
           priority
         />
-        {/* Subtle dark overlay for contrast */}
-        <div className="absolute inset-0 bg-black/60" />
       </div>
 
       {/* Right Section: Form */}
