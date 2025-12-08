@@ -1,5 +1,5 @@
 // ...existing code...
-import { auth } from "@/auth";
+/* import { auth } from "@/auth";
 
 interface RequestOptions extends RequestInit {
   data?: any;
@@ -98,3 +98,4 @@ export async function clientApiRequest(
 
   return parseJsonSafe(response);
 }
+ */

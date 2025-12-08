@@ -1,37 +1,11 @@
-import { auth, signOut } from "@/auth";
-import { redirect } from "next/navigation";
-import Image from "next/image";
+import { Logout } from '@/components/logout';
 
-export default async function Dashboard() {
-  const session = await auth();
-
-  if (!session) {
-    redirect("/auth/login");
-  }
-
-  async function handleSignOut() {
-    "use server";
-    await signOut({ redirectTo: "/" });
-  }
-
+export default function Dashboard() {
   return (
-    <>
-      {session.user?.image && (
-        <Image
-          src={session.user.image}
-          alt={session.user?.name ?? "User avatar"}
-          style={{ width: 64, height: 64, borderRadius: 9999 }}
-        />
-      )}
-
-      <h1>Welcome, {session.user?.name}</h1>
-      <p>{session.user?.email}</p>
-
-      <form action={handleSignOut}>
-        <button type="submit">Sign Out</button>
-      </form>
-
-      <pre>{JSON.stringify(session, null, 2)}</pre>
-    </>
+    <div className="flex flex-col items-center justify-center">
+      <h1>Dashboard</h1>
+      <p>This is the dashboard page.</p>
+      <Logout />
+    </div>
   );
 }
