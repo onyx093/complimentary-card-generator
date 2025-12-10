@@ -10,6 +10,7 @@ export default auth((req) => {
     "/auth/login",
     "/auth/success",
     "/auth/google",
+    "/dashboard",
     "/auth/google/login",
     "/api/proxy/auth/google",
   ];
