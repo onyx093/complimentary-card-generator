@@ -1,43 +1,46 @@
-import { auth } from "@/auth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
+import { getSessionCookie } from 'better-auth/cookies';
+import { API_ROUTE_PREFIX, publicRoutes } from '../routes';
 
-export default auth((req) => {
+/* export default auth((req) => {
   const { pathname } = req.nextUrl;
 
   const publicAuthRoutes = [
-    "/api/auth",
-    "/auth",
-    "/auth/login",
-    "/auth/success",
-    "/auth/google",
-    "/dashboard",
-    "/auth/google/login",
-    "/api/proxy/auth/google",
+    '/api/auth',
+    '/auth',
+    '/auth/login',
+    '/auth/success',
+    '/auth/google',
+    '/dashboard',
+    '/auth/google/login',
+    '/api/proxy/auth/google',
   ];
 
   if (publicAuthRoutes.some((route) => pathname.startsWith(route))) {
     return NextResponse.next();
   }
+}); */
 
-  if (pathname.startsWith("/api")) {
+export async function proxy(request: NextRequest) {
+  const sessionCookie = getSessionCookie(request);
+  // THIS IS NOT SECURE!
+  // This is the recommended approach to optimistically redirect users
+  // We recommend handling auth checks in each page/route
+  if (
+    API_ROUTE_PREFIX &&
+    request.nextUrl.pathname.startsWith(API_ROUTE_PREFIX)
+  ) {
     return NextResponse.next();
   }
-
-  const isAuthenticated = !!req.auth;
-  const isAuthPage = pathname.startsWith("/auth");
-  const isProtectedPage = pathname.startsWith("/dashboard");
-
-  if (isProtectedPage && !isAuthenticated) {
-    return NextResponse.redirect(new URL("/auth/login", req.url));
+  if (!sessionCookie) {
+    if (publicRoutes.includes(request.nextUrl.pathname)) {
+      return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL('/login', request.url));
   }
-
-  if (isAuthPage && isAuthenticated) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
-
   return NextResponse.next();
-});
+}
 
 export const config = {
-  matcher: ["/((?!_next|favicon.ico|public).*)"],
+  matcher: ['/((?!_next|favicon.ico|public).*)', '/dashboard'],
 };
