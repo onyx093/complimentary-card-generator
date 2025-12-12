@@ -1,14 +1,6 @@
-import LoginForm from "@/components/forms/Login-form";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import LoginForm from '@/components/forms/login-form';
 
 export default async function LoginPage() {
-  const session = await auth();
-
-  if (session) {
-    redirect("/dashboard");
-  }
-
   return (
     <div className="w-full">
       <div className="text-center mb-10">
