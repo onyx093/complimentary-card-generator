@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
+import { useState } from 'react';
+import Image from 'next/image';
 
 type Props = {
   selectedTemplate: string | null;
@@ -14,9 +14,9 @@ const THUMB_W = 225;
 const THUMB_H = 144;
 
 const templates = [
-  { id: "template-1", title: "Template 1", file: "/card-mockup1.svg" },
-  { id: "template-2", title: "Template 2", file: "/card-mockup2.svg" },
-  { id: "template-3", title: "Template 3", file: "/card-mockup3.svg" },
+  { id: 'template-1', title: 'Template 1', file: '/card-mockup1.svg' },
+  { id: 'template-2', title: 'Template 2', file: '/card-mockup2.svg' },
+  { id: 'template-3', title: 'Template 3', file: '/card-mockup3.svg' },
 ];
 
 export default function TemplateGallery({
@@ -41,16 +41,14 @@ export default function TemplateGallery({
                 className={`relative rounded-xl overflow-hidden bg-white transition-shadow duration-150
                   ${
                     isSelected
-                      ? "ring-[#4B001F] shadow-md"
-                      : "border border-gray-100 hover:shadow-lg"
-                  }`}
-              >
+                      ? 'ring-[#4B001F] shadow-md'
+                      : 'border border-gray-100 hover:shadow-lg'
+                  }`}>
                 <div className="py-6 md:py-4 flex justify-center px-4">
                   <div
                     className={`rounded-lg overflow-hidden w-full max-w-[225px] transition-opacity ${
-                      galleryActive ? "opacity-100" : "opacity-80"
-                    }`}
-                  >
+                      galleryActive ? 'opacity-100' : 'opacity-80'
+                    }`}>
                     <Image
                       src={t.file}
                       alt={t.title}
@@ -69,12 +67,11 @@ export default function TemplateGallery({
                     onClick={() => setPreview(t.file)}
                     className={`w-full sm:flex-1 sm:max-w-28 px-3 py-2 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#4B001F] transition ${
                       galleryActive
-                        ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                        : "border border-gray-300 bg-white text-gray-400 cursor-not-allowed"
+                        ? 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                        : 'border border-gray-300 bg-white text-gray-400 cursor-not-allowed'
                     }`}
                     aria-label={`Preview ${t.title}`}
-                    disabled={!galleryActive}
-                  >
+                    disabled={!galleryActive}>
                     Preview
                   </button>
 
@@ -87,16 +84,15 @@ export default function TemplateGallery({
                     }}
                     className={`w-full sm:flex-1 sm:max-w-28 px-3 py-2 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#4B001F] transition ${
                       isSelected
-                        ? "bg-[#4B001F] text-white cursor-default"
+                        ? 'bg-[#4B001F] text-white cursor-default'
                         : galleryActive
-                        ? "bg-[#4B001F] text-white hover:opacity-90"
-                        : "bg-[#E8E8E8] text-white cursor-not-allowed"
+                        ? 'bg-[#4B001F] text-white hover:opacity-90'
+                        : 'bg-[#E8E8E8] text-white cursor-not-allowed'
                     }`}
                     aria-pressed={isSelected}
                     aria-label={`Select ${t.title}`}
-                    disabled={!galleryActive || isSelected}
-                  >
-                    {isSelected ? "Select" : "Select"}
+                    disabled={!galleryActive || isSelected}>
+                    Select
                   </button>
                 </div>
 
@@ -124,18 +120,15 @@ export default function TemplateGallery({
           role="dialog"
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-          onClick={() => setPreview(null)}
-        >
+          onClick={() => setPreview(null)}>
           <div
             className="bg-white rounded-xl overflow-hidden max-w-4xl w-full shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
+            onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-end p-3">
               <button
                 onClick={() => setPreview(null)}
                 aria-label="Close preview"
-                className="text-sm px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 transition"
-              >
+                className="text-sm px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 transition">
                 Close
               </button>
             </div>
