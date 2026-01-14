@@ -1,6 +1,8 @@
-import Image from "next/image";
 import { cardTemplates, TemplateId } from "@/lib/types/card-templates";
 import { CardFormData } from "@/lib/types/card";
+import MockUp1 from "@/components/ui/card-mockup1";
+import MockUp2 from "@/components/ui/card-mockup2";
+import MockUp3 from "@/components/ui/card-mockup3";
 
 type Props = {
   formData: CardFormData;
@@ -8,10 +10,16 @@ type Props = {
   previewTemplate: TemplateId | null;
 };
 
-const templates = [
-  { id: "template-1", title: "Template 1", file: "/card-mockup1.svg" },
-  { id: "template-2", title: "Template 2", file: "/card-mockup2.svg" },
-  { id: "template-3", title: "Template 3", file: "/card-mockup3.svg" },
+type Template = {
+  id: TemplateId;
+  title: string;
+  Component: React.FC<{ className?: string }>;
+};
+
+const templates: Template[] = [
+  { id: "template-1", title: "Template 1", Component: MockUp1 },
+  { id: "template-2", title: "Template 2", Component: MockUp2 },
+  { id: "template-3", title: "Template 3", Component: MockUp3 },
 ];
 
 export default function QuickPreview({
@@ -31,16 +39,11 @@ export default function QuickPreview({
   if (previewTemplate) {
     const template = templates.find((t) => t.id === previewTemplate);
     if (template) {
+      const PreviewComponent = template.Component;
+
       return (
         <div className="bg-gray-50 border rounded-xl p-6 flex justify-center">
-          <Image
-            src={template.file}
-            alt={template.title}
-            width={450}
-            height={288}
-            className="object-contain w-auto h-auto"
-            loading="eager"
-          />
+          <PreviewComponent className="w-full h-auto" />;
         </div>
       );
     }
