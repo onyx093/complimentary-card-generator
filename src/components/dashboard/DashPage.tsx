@@ -12,13 +12,13 @@ export default function DashPage() {
   const [isActive, setIsActive] = useState(false);
 
   const [formData, setFormData] = useState<CardFormData>({
-    fullName: "",
-    position: "",
-    email: "",
-    phone: "",
-    company: "",
-    address: "",
-    website: "",
+    fullName: '',
+    position: '',
+    email: '',
+    phone: '',
+    company: '',
+    address: '',
+    website: '',
   });
 
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateId | null>(
