@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { authClient } from '@/lib/auth-client';
-import { LogOut } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { Button } from './ui/button';
-import { Links } from '@/lib/enums/links';
+import { authClient } from "@/lib/auth-client";
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Links } from "@/lib/enums/links";
 
 export function Logout({ classes }: { classes?: string } = {}) {
   const router = useRouter();
@@ -15,10 +14,11 @@ export function Logout({ classes }: { classes?: string } = {}) {
   };
 
   return (
-    <Button
-      className={`w-full cursor-pointer ${classes}`}
-      onClick={handleLogout}>
+    <span
+      className={`w-full cursor-pointer ${classes ?? ""}`}
+      onClick={handleLogout}
+    >
       Logout <LogOut className="size-4" />
-    </Button>
+    </span>
   );
 }

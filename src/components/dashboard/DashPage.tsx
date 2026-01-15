@@ -1,13 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Header from '@/components/dashboard/Header';
-import CardForm from '@/components/dashboard/CardForm';
-import TemplateGallery from '@/components/dashboard/template-gallery';
-import QuickPreview from '@/components/dashboard/quick-preview';
+import { useState } from "react";
+import CardForm from "@/components/dashboard/CardForm";
+import TemplateGallery from "@/components/dashboard/template-gallery";
+import QuickPreview from "@/components/dashboard/quick-preview";
 
-import { TemplateId } from '@/lib/types/card-templates';
-import { CardFormData } from '@/lib/types/card';
+import { TemplateId } from "@/lib/types/card-templates";
+import { CardFormData } from "@/lib/types/card";
 
 export default function DashPage() {
   const [isActive, setIsActive] = useState(false);
@@ -25,11 +24,12 @@ export default function DashPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateId | null>(
     null
   );
+  const [previewTemplate, setPreviewTemplate] = useState<TemplateId | null>(
+    null
+  );
 
   return (
     <>
-      <Header />
-
       <div className="container mx-auto px-4 mt-6">
         <div className="flex flex-col lg:flex-row gap-6 min-h-screen items-stretch">
           {/* LEFT — FORM (40%) */}
@@ -54,6 +54,8 @@ export default function DashPage() {
                   setSelectedTemplate={setSelectedTemplate}
                   setIsActive={setIsActive}
                   isActive={isActive}
+                  previewTemplate={previewTemplate}
+                  setPreviewTemplate={setPreviewTemplate}
                 />
               </div>
 
@@ -67,6 +69,7 @@ export default function DashPage() {
                   <QuickPreview
                     formData={formData}
                     selectedTemplate={selectedTemplate}
+                    previewTemplate={previewTemplate}
                   />
                 </div>
               </div>
