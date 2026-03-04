@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import RubicCube from "@/components/ui/rubic-cube";
 
 export default function AuthLayout({
   children,
@@ -7,16 +7,10 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-[2fr_3fr]">
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
       {/* Left Section: Artwork */}
-      <div className="relative hidden md:block bg-slate-900">
-        <Image
-          src="/rubic-cube.svg"
-          alt="decorative artwork"
-          fill
-          className="object-cover"
-          priority
-        />
+      <div className="relative hidden lg:block bg-slate-900">
+        <RubicCube className="object-contain w-full h-full" />
       </div>
 
       {/* Right Section: Form */}
