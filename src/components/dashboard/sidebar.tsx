@@ -1,11 +1,10 @@
 'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Image from "next/image";
-import { Links } from "@/lib/enums/links";
-// import { Logout } from "../logout";
-import { LogOut } from "lucide-react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
+import { Links } from '@/lib/enums/links';
+import { LogOut } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -14,19 +13,14 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-} from "@/components/ui/sidebar";
-import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
+} from '@/components/ui/sidebar';
+import { useRouter } from 'next/navigation';
+import { handleLogout } from '../logout';
 
 export default function AppSidebar() {
   const pathname = usePathname();
 
   const router = useRouter();
-
-  const handleLogout = async () => {
-    await authClient.signOut();
-    router.push(Links.LOGIN);
-  };
 
   const isActive = (route: string) => pathname === route;
 
@@ -47,8 +41,7 @@ export default function AppSidebar() {
               asChild
               isActive={isActive(Links.DASHBOARD)}
               tooltip="Create Card"
-              className="rounded-full data-[active=true]:bg-white data-[active=true]:text-[#4B001F]"
-            >
+              className="rounded-full data-[active=true]:bg-white data-[active=true]:text-[#4B001F]">
               <Link href={Links.DASHBOARD} className="flex items-center gap-2">
                 <Image
                   src="/menu-icon.svg"
@@ -69,9 +62,8 @@ export default function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton
               tooltip="Logout"
-              onClick={handleLogout}
-              className="w-full rounded-full px-4 py-5 text-center bg-white text-[#4B001F] hover:bg-white/70 cursor-pointer"
-            >
+              onClick={() => handleLogout(router)}
+              className="w-full rounded-full px-4 py-5 text-center bg-white text-[#4B001F] hover:bg-white/70 cursor-pointer">
               <span className="flex items-center gap-2">
                 Logout <LogOut className="size-4" />
               </span>

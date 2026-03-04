@@ -8,7 +8,10 @@ import { Links } from '@/lib/enums/links';
 export const publicRoutes: string[] = [
   `${Links.HOME}`,
   `${Links.LOGIN}`,
-  `${Links.LOGOUT}`,
+  /* `${Links.LOGOUT}`, */
+];
+
+export const protectedRoutes: string[] = [
   `${Links.DASHBOARD}`,
   `${Links.PROFILE}`,
   `${Links.SETTINGS}`,

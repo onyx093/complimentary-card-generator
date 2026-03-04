@@ -11,19 +11,17 @@ const RubicCube = ({ className }: Props) => {
       viewBox="0 0 719 1065"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-    >
-      <g clip-path="url(#clip0_5_544)">
+      xmlnsXlink="http://www.w3.org/1999/xlink">
+      <g clipPath="url(#clip0_5_544)">
         <rect width="719" height="1065" fill="url(#pattern0_5_544)" />
-        <rect width="719" height="1065" fill="#05214D" fill-opacity="0.2" />
+        <rect width="719" height="1065" fill="#05214D" fillOpacity="0.2" />
       </g>
       <defs>
         <pattern
           id="pattern0_5_544"
           patternContentUnits="objectBoundingBox"
           width="1"
-          height="1"
-        >
+          height="1">
           <use
             xlinkHref="#image0_5_544"
             transform="matrix(0.00123641 0 0 0.000834725 -0.816781 0)"

@@ -11,9 +11,8 @@ const MockUp1 = ({ className }: Props) => {
       viewBox="0 0 226 144"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-    >
-      <g clip-path="url(#clip0_181_1210)">
+      xmlnsXlink="http://www.w3.org/1999/xlink">
+      <g clipPath="url(#clip0_181_1210)">
         <rect width="225.908" height="144" rx="6.6055" fill="#EBEFF6" />
         <rect
           width="225.908"
@@ -25,7 +24,7 @@ const MockUp1 = ({ className }: Props) => {
           <path
             d="M76.7166 84.875L114.728 31.2634L211.286 78.5374L173.062 131.201L76.7166 84.875Z"
             fill="url(#paint0_linear_181_1210)"
-            fill-opacity="0.2"
+            fillOpacity="0.2"
           />
         </g>
         <g filter="url(#filter1_d_181_1210)">
@@ -68,8 +67,7 @@ const MockUp1 = ({ className }: Props) => {
           id="pattern0_181_1210"
           patternContentUnits="objectBoundingBox"
           width="1"
-          height="1"
-        >
+          height="1">
           <use
             xlinkHref="#image0_181_1210"
             transform="matrix(0.00146199 0 0 0.00229358 0 -0.0883028)"
@@ -82,9 +80,8 @@ const MockUp1 = ({ className }: Props) => {
           width="172.862"
           height="138.23"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
-        >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          colorInterpolationFilters="sRGB">
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend
             mode="normal"
             in="SourceGraphic"
@@ -103,9 +100,8 @@ const MockUp1 = ({ className }: Props) => {
           width="133.028"
           height="90.222"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
-        >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          colorInterpolationFilters="sRGB">
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -137,10 +133,9 @@ const MockUp1 = ({ className }: Props) => {
           y1="45.7788"
           x2="176.443"
           y2="122.43"
-          gradientUnits="userSpaceOnUse"
-        >
+          gradientUnits="userSpaceOnUse">
           <stop />
-          <stop offset="1" stop-opacity="0.52" />
+          <stop offset="1" stopOpacity="0.52" />
         </linearGradient>
         <clipPath id="clip0_181_1210">
           <rect width="225.908" height="144" rx="6.6055" fill="white" />
