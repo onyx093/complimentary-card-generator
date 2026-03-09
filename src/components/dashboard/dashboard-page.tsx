@@ -1,15 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '@/components/dashboard/Header';
-import CardForm from '@/components/dashboard/CardForm';
+import Header from '@/components/dashboard/header';
+import CardForm from '@/components/dashboard/card-form';
 import TemplateGallery from '@/components/dashboard/template-gallery';
 import QuickPreview from '@/components/dashboard/quick-preview';
 
-import { TemplateId } from '@/lib/types/card-templates';
+import { CardTemplate } from '@/lib/types/card-templates';
 import { CardFormData } from '@/lib/types/card';
 
-export default function DashPage() {
+type DashboardPageProps = {
+  templates: CardTemplate[];
+};
+
+export default function DashboardPage({ templates }: DashboardPageProps) {
   const [isActive, setIsActive] = useState(false);
 
   const [formData, setFormData] = useState<CardFormData>({
@@ -22,8 +26,8 @@ export default function DashPage() {
     website: '',
   });
 
-  const [selectedTemplate, setSelectedTemplate] = useState<TemplateId | null>(
-    null
+  const [selectedTemplate, setSelectedTemplate] = useState<CardTemplate | null>(
+    null,
   );
 
   return (
@@ -50,6 +54,7 @@ export default function DashPage() {
               <div>
                 <h3 className="text-lg font-medium mb-4">Templates</h3>
                 <TemplateGallery
+                  templates={templates}
                   selectedTemplate={selectedTemplate}
                   setSelectedTemplate={setSelectedTemplate}
                   setIsActive={setIsActive}

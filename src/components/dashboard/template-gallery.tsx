@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { CardTemplate } from '@/lib/types/card-templates';
 
 type Props = {
-  selectedTemplate: string | null;
-  setSelectedTemplate: (v: string) => void;
+  templates: CardTemplate[];
+  selectedTemplate: CardTemplate | null;
+  setSelectedTemplate: (v: CardTemplate | null) => void;
   setIsActive: (v: boolean) => void;
   isActive?: boolean;
 };
@@ -13,13 +15,8 @@ type Props = {
 const THUMB_W = 225;
 const THUMB_H = 144;
 
-const templates = [
-  { id: 'template-1', title: 'Template 1', file: '/card-mockup1.svg' },
-  { id: 'template-2', title: 'Template 2', file: '/card-mockup2.svg' },
-  { id: 'template-3', title: 'Template 3', file: '/card-mockup3.svg' },
-];
-
 export default function TemplateGallery({
+  templates,
   selectedTemplate,
   setSelectedTemplate,
   setIsActive,
@@ -33,7 +30,7 @@ export default function TemplateGallery({
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4">
           {templates.map((t) => {
-            const isSelected = selectedTemplate === t.id;
+            const isSelected = selectedTemplate?.name === t.name;
 
             return (
               <article
@@ -46,12 +43,12 @@ export default function TemplateGallery({
                   }`}>
                 <div className="py-6 md:py-4 flex justify-center px-4">
                   <div
-                    className={`rounded-lg overflow-hidden w-full max-w-[225px] transition-opacity ${
+                    className={`rounded-lg overflow-hidden w-full max-w-56.25 transition-opacity ${
                       galleryActive ? 'opacity-100' : 'opacity-80'
                     }`}>
                     <Image
-                      src={t.file}
-                      alt={t.title}
+                      src={`${t.name}.svg`}
+                      alt={t.description}
                       width={THUMB_W}
                       height={THUMB_H}
                       className="object-cover w-full h-auto"
@@ -64,13 +61,13 @@ export default function TemplateGallery({
                 <div className="px-3 pb-4 lg:px-2 flex flex-col md:flex-row items-center justify-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setPreview(t.file)}
+                    onClick={() => setPreview(`${t.name}.svg`)}
                     className={`w-full sm:flex-1 sm:max-w-28 px-3 py-2 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#4B001F] transition ${
                       galleryActive
                         ? 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
                         : 'border border-gray-300 bg-white text-gray-400 cursor-not-allowed'
                     }`}
-                    aria-label={`Preview ${t.title}`}
+                    aria-label={`Preview ${t.name}`}
                     disabled={!galleryActive}>
                     Preview
                   </button>
@@ -79,18 +76,18 @@ export default function TemplateGallery({
                     type="button"
                     onClick={() => {
                       if (!galleryActive) return;
-                      setSelectedTemplate(t.id);
+                      setSelectedTemplate(t);
                       setIsActive(true);
                     }}
                     className={`w-full sm:flex-1 sm:max-w-28 px-3 py-2 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#4B001F] transition ${
                       isSelected
                         ? 'bg-[#4B001F] text-white cursor-default'
                         : galleryActive
-                        ? 'bg-[#4B001F] text-white hover:opacity-90'
-                        : 'bg-[#E8E8E8] text-white cursor-not-allowed'
+                          ? 'bg-[#4B001F] text-white hover:opacity-90'
+                          : 'bg-[#E8E8E8] text-white cursor-not-allowed'
                     }`}
                     aria-pressed={isSelected}
-                    aria-label={`Select ${t.title}`}
+                    aria-label={`Select ${t.name} as template`}
                     disabled={!galleryActive || isSelected}>
                     Select
                   </button>

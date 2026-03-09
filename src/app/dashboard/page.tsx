@@ -1,9 +1,13 @@
-import DashPage from '@/components/dashboard/DashPage';
+import DashboardPage from '@/components/dashboard/dashboard-page';
+import { getCardTemplates } from '../actions/templates';
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const templates = await getCardTemplates();
+  console.log(templates);
+
   return (
     <div>
-      <DashPage />
+      <DashboardPage templates={templates} />
     </div>
   );
 }

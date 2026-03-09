@@ -1,9 +1,10 @@
-import { cardTemplates, TemplateId } from '@/lib/types/card-templates';
+import { CardTemplate } from '@/lib/types/card-templates';
 import { CardFormData } from '@/lib/types/card';
+import TemplateFactory from '../templates/template-factory';
 
 type Props = {
   formData: CardFormData;
-  selectedTemplate: TemplateId | null;
+  selectedTemplate: CardTemplate | null;
 };
 
 export default function QuickPreview({ formData, selectedTemplate }: Props) {
@@ -15,11 +16,9 @@ export default function QuickPreview({ formData, selectedTemplate }: Props) {
     );
   }
 
-  const SelectedTemplate = cardTemplates[selectedTemplate];
-
   return (
     <div className="bg-gray-50 border rounded-xl p-6 flex justify-center">
-      <SelectedTemplate {...formData} />
+      <TemplateFactory template={selectedTemplate} formData={formData} />
     </div>
   );
 }

@@ -1,21 +1,22 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "Cardify - Digital Card Generator",
+  title: 'Cardify - Digital Card Generator',
   description:
-    "Empowering organizations to design smart, branded employee cards in seconds.",
+    'Empowering organizations to design smart, branded employee cards in seconds.',
 };
 
 export default function RootLayout({
@@ -26,9 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
   );
