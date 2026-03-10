@@ -3,7 +3,6 @@ import { getCardTemplates } from '../actions/templates';
 
 export default async function Dashboard() {
   const templates = await getCardTemplates();
-  console.log(templates);
 
   return (
     <div>

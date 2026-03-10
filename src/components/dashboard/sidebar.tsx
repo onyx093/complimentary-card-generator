@@ -15,9 +15,22 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '../ui/sidebar';
-import { User2 } from 'lucide-react';
 
-export default function AppSidebar() {
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+
+type AppSidebarProps = {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    emailVerified: boolean;
+    image?: string | null | undefined;
+    createdAt: Date;
+    updatedAt: Date;
+  };
+};
+
+export default function AppSidebar({ user }: AppSidebarProps) {
   const pathname = usePathname();
 
   const isActive = (route: string) =>
@@ -62,11 +75,29 @@ export default function AppSidebar() {
           <SidebarGroup />
         </SidebarContent>
 
-        <SidebarFooter>
+        {/* <SidebarFooter>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton>
                 <User2 /> Username
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter> */}
+        <SidebarFooter className="border-2 border-white rounded-lg p-2 bg-accent">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                size="lg"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarImage src={user.image ?? undefined} alt={user.name} />
+                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate text-xs">{user.email}</span>
+                </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
