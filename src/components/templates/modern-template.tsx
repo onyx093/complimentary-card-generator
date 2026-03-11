@@ -1,7 +1,7 @@
 import { CardFormData } from '@/lib/types/card';
 import Image from 'next/image';
 
-export function CardTemplate3({
+export function ModernTemplate({
   fullName,
   position,
   email,
@@ -10,7 +10,7 @@ export function CardTemplate3({
   address,
 }: CardFormData) {
   return (
-    <div className="w-[520px] h-80 overflow-hidden flex flex-col shadow-lg">
+    <div className="w-130 h-80 overflow-hidden flex flex-col shadow-lg">
       {/*Top half*/}
       <div className="h-1/2 bg-white text-[#1e293b] flex flex-col justify-start items-end p-6">
         <h2 className="text-2xl font-bold text-right capitalize">

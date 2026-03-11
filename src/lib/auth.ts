@@ -10,10 +10,19 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  user: {},
+  session: {
+    expiresIn: 60 * 60 * 24 * 7, // 7 days
+    updateAge: 60 * 60 * 24, // 1 day (every 1 day the session expiration is updated)
+  },
+  account: {},
+  verification: {},
   database: drizzleAdapter(db, {
     provider: 'pg',
     usePlural: true,
-    schema,
+    schema: {
+      ...schema,
+    },
   }),
   experimental: { joins: true },
   plugins: [bearer(), nextCookies()],

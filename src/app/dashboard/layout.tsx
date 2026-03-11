@@ -1,33 +1,36 @@
-import {
-  SidebarProvider,
-  SidebarInset,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import AppSidebar from "@/components/dashboard/sidebar";
-import Header from "@/components/dashboard/Header";
+import AppSidebar from '@/components/dashboard/sidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { auth } from '@/lib/auth';
+import { Links } from '@/lib/enums/links';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return redirect(Links.LOGIN);
+  }
+
   return (
-    <SidebarProvider defaultOpen={true}>
-      <div className="flex min-h-screen bg-[#F7F4F5]">
-        {/* Sidebar */}
-        <AppSidebar />
+    <div className="flex bg-[#F7F4F5]">
+      <SidebarProvider>
+        <div className="hidden lg:block">
+          <AppSidebar user={session.user} />
+        </div>
 
-        {/* Main content */}
-        <SidebarInset>
-          {/* Optional top bar */}
-          <header className="flex h-18 items-center gap-2 border-b ">
-            <SidebarTrigger />
-            <Header />
-          </header>
-
-          <main className="flex-1 p-4 overflow-y-auto">{children}</main>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
+        {/* Main Content Area */}
+        <main className="flex-1 p-4 overflow-y-auto">
+          <SidebarTrigger />
+          {children}
+        </main>
+      </SidebarProvider>
+    </div>
   );
 }
