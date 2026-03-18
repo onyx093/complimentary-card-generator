@@ -1,3 +1,5 @@
+name: Auto-merge dev into staging
+
 on:
   push:
     branches:
@@ -10,13 +12,14 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   merge-dev-into-staging:
     if: |
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' && 
-github.event.pull_request.merged == true)
+      github.event.pull_request.merged == true)
 
     runs-on: ubuntu-latest
 
@@ -29,17 +32,16 @@ github.event.pull_request.merged == true)
       - name: Configure git identity
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email 
-"github-actions[bot]@users.noreply.github.com"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Fetch all branches
         run: git fetch origin
 
-      - name: Checkout staging
+      - name: Checkout staging branch
         run: git checkout staging
 
       - name: Merge dev into staging
         run: git merge origin/dev --no-ff
 
-      - name: Push staging
+      - name: Push changes to staging
         run: git push origin staging
