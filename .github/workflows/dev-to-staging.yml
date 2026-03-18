@@ -1,0 +1,45 @@
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+    types:
+      - closed
+
+permissions:
+  contents: write
+
+jobs:
+  merge-dev-into-staging:
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && 
+github.event.pull_request.merged == true)
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email 
+"github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch all branches
+        run: git fetch origin
+
+      - name: Checkout staging
+        run: git checkout staging
+
+      - name: Merge dev into staging
+        run: git merge origin/dev --no-ff
+
+      - name: Push staging
+        run: git push origin staging
