@@ -1,7 +1,7 @@
 export enum Links {
   HOME = "/",
   DASHBOARD = "/dashboard",
-  HISTORY = "/history",
+  SAVED_CARDS = "/saved-cards",
   LOGIN = "/login",
   LOGOUT = "/logout",
   PROFILE = "/profile",

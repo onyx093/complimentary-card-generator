@@ -45,7 +45,7 @@ export default function AppSidebar({ user }: AppSidebarProps) {
   return (
     <>
       <Sidebar className="w-65 bg-linear-to-b from-[#4B001F] to-[#2A000F] px-6 py-8">
-        <h1 className="text-white text-xl font-bold mb-10">Cardify</h1>
+        <h1 className="mb-10 text-xl font-bold text-white">Cardify</h1>
         <SidebarHeader />
 
         <SidebarContent>
@@ -54,10 +54,8 @@ export default function AppSidebar({ user }: AppSidebarProps) {
               <SidebarMenuButton asChild>
                 <Link
                   href={Links.DASHBOARD}
-                  className={`flex gap-2 px-4 py-2 rounded-full transition ${
-                    active(Links.DASHBOARD)
-                      ? "bg-white text-[#4B001F]"
-                      : "text-[#FFF5FA]"
+                  className={`flex gap-2 rounded-full px-4 py-2 transition ${
+                    active(Links.DASHBOARD) ? "bg-white text-[#4B001F]" : "text-[#FFF5FA]"
                   }`}
                 >
                   <Image
@@ -76,9 +74,9 @@ export default function AppSidebar({ user }: AppSidebarProps) {
               </SidebarMenuButton>
               <SidebarMenuButton asChild>
                 <Link
-                  href={Links.HISTORY}
-                  className={`flex gap-2 px-4 py-2 rounded-full transition ${
-                    active(Links.HISTORY)
+                  href={Links.SAVED_CARDS}
+                  className={`flex gap-2 rounded-full px-4 py-2 transition ${
+                    active(Links.SAVED_CARDS)
                       ? "bg-white text-[#4B001F]"
                       : "text-[#FFF5FA]"
                   }`}
@@ -89,7 +87,7 @@ export default function AppSidebar({ user }: AppSidebarProps) {
                     width={24}
                     height={24}
                     style={{
-                      filter: active(Links.HISTORY)
+                      filter: active(Links.SAVED_CARDS)
                         ? activeIconFilter
                         : inactiveIconFilter,
                     }}
@@ -112,7 +110,7 @@ export default function AppSidebar({ user }: AppSidebarProps) {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter> */}
-        <SidebarFooter className="border-2 border-white rounded-lg p-2 bg-accent">
+        <SidebarFooter className="bg-accent rounded-lg border-2 border-white p-2">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton

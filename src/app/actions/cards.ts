@@ -14,13 +14,10 @@ export type HistoryGroup = {
   entries: HistoryEntry[];
 };
 
-export async function getCardHistory(userId: string): Promise<HistoryGroup[]> {
-  const response = await fetch(
-    `${BACKEND_URL}/cards/history?userId=${userId}`,
-    {
-      cache: "no-store",
-    },
-  );
+export async function getSavedCardsByUser(userId: string): Promise<HistoryGroup[]> {
+  const response = await fetch(`${BACKEND_URL}/cards/history?userId=${userId}`, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
     return [];
@@ -41,3 +38,5 @@ export async function getCardHistory(userId: string): Promise<HistoryGroup[]> {
 
   return Object.entries(groups).map(([date, entries]) => ({ date, entries }));
 }
+
+export const saveCardForUser = async (userId: string) => {};
