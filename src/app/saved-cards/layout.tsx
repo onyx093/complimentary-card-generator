@@ -1,9 +1,9 @@
-import AppSidebar from "@/components/dashboard/sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { auth } from "@/lib/auth";
-import { Links } from "@/lib/enums/links";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import AppSidebar from '@/components/dashboard/sidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { auth } from '@/lib/auth';
+import { Links } from '@/lib/enums/links';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default async function DashboardLayout({
   children,

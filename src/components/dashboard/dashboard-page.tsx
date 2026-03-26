@@ -43,6 +43,7 @@ export default function DashboardPage({ templates }: DashboardPageProps) {
                 formData={formData}
                 setFormData={setFormData}
                 setIsActive={setIsActive}
+                selectedTemplate={selectedTemplate}
               />
             </div>
           </div>

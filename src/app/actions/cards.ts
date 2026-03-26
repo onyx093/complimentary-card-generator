@@ -1,42 +1,14 @@
 "use server";
 
-import { BACKEND_URL } from "@/lib/constants";
+  import { SavedCardGroup } from "@/lib/types/card";
+  import {getCardHistory, saveCardForUser} from "@/app/actions/history";
 
-export type HistoryEntry = {
-  id: string;
-  templateName: string;
-  downloadedAt: string;
-  downloadUrl: string;
-};
+export type HistoryGroup = SavedCardGroup;
 
-export type HistoryGroup = {
-  date: string;
-  entries: HistoryEntry[];
-};
-
-export async function getSavedCardsByUser(userId: string): Promise<HistoryGroup[]> {
-  const response = await fetch(`${BACKEND_URL}/cards/history?userId=${userId}`, {
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    return [];
-  }
-
-  const data: HistoryEntry[] = await response.json();
-
-  const groups: Record<string, HistoryEntry[]> = {};
-  for (const entry of data) {
-    const label = new Date(entry.downloadedAt).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "2-digit",
-    });
-    if (!groups[label]) groups[label] = [];
-    groups[label].push(entry);
-  }
-
-  return Object.entries(groups).map(([date, entries]) => ({ date, entries }));
+export async function getSavedCardsByUser(
+  userId: string,
+): Promise<HistoryGroup[]> {
+  return getCardHistory(userId);
 }
 
-export const saveCardForUser = async (userId: string) => {};
+export { saveCardForUser };

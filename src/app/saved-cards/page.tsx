@@ -2,11 +2,34 @@ import { FileText } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { getSavedCardsByUser } from "@/app/actions/cards";
+import { getCardHistory } from "@/app/actions/history";
+import { getCardTemplates } from "@/app/actions/templates";
 
 export default async function SavedCardsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
-  const groups = session ? await getSavedCardsByUser(session.user.id) : [];
+  const [groups, templates] = session
+    ? await Promise.all([getCardHistory(session.user.id), getCardTemplates()])
+    : [[], []];
+
+  const templateMap = new Map<string, string>(
+    templates.map((template: { id: string; name: string }) => [
+      template.id,
+      template.name,
+    ]) as [string, string][],
+  );
+
+  const getTemplateLabel = (templateId?: string): string => {
+    if (!templateId) {
+      return "Template";
+    }
+
+    return templateMap.get(templateId) || templateId;
+  };
+
+  const getTemplateAssetPath = (templateId?: string): string => {
+    const templateName = getTemplateLabel(templateId);
+    return `/${templateName}.svg`;
+  };
 
   return (
     <div className="mt-8 mb-12 px-4">
@@ -49,24 +72,25 @@ export default async function SavedCardsPage() {
                           <FileText className="h-4 w-4 text-white" />
                         </div>
 
-                        {/* Template name */}
-                        <span className="text-sm font-medium text-[#28171E]">
-                          {entry.templateName}
-                        </span>
+                          <div className="flex flex-col">
+                            <span className="text-sm font-medium text-[#28171E]">
+                              {getTemplateLabel(entry.template_id)}
+                            </span>
+                            <span className="text-xs text-[#615A5D]">{entry.full_name}</span>
+                          </div>
                       </div>
 
                       {/* Actions */}
-                      <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-4">
                         <Link
                           href={`/dashboard?edit=${entry.id}`}
                           className="text-sm font-medium text-[#4B001F] hover:underline"
                         >
                           Edit
                         </Link>
-
                         <a
-                          href={entry.downloadUrl}
-                          download
+                          href={getTemplateAssetPath(entry.template_id)}
+                          download={`${entry.full_name.replace(/\s+/g, "-").toLowerCase()}-card.svg`}
                           className="text-sm font-medium text-[#4B001F] hover:underline"
                         >
                           Download
