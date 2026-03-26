@@ -18,7 +18,8 @@ import { Button } from "@/components/ui/button";
 
 import { CardFormData } from "@/lib/types/card";
 import { CardTemplate } from "@/lib/types/card-templates";
-import { saveCardForUser } from "@/app/actions/history";
+import { saveCardForUser } from "@/app/actions/cards";
+import { Links } from "@/lib/enums/links";
 
 type Props = {
   formData: CardFormData;
@@ -72,11 +73,11 @@ export default function CardForm({
       return;
     }
 
-    router.push("/saved-cards");
+    router.push(Links.SAVED_CARDS);
   }
 
   const syncToParent = (name: keyof FormValues, value: string) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
@@ -85,9 +86,7 @@ export default function CardForm({
 
   return (
     <section className="bg-white">
-      <h3 className="text-2xl font-semibold text-[#2b2b2b] mb-6">
-        Personal Details
-      </h3>
+      <h3 className="mb-6 text-2xl font-semibold text-[#2b2b2b]">Personal Details</h3>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -96,9 +95,7 @@ export default function CardForm({
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="mb-2 text-sm text-[#4b001f]">
-                  Full Name
-                </FormLabel>
+                <FormLabel className="mb-2 text-sm text-[#4b001f]">Full Name</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -106,7 +103,7 @@ export default function CardForm({
                     placeholder="e.g., Leonard Adams"
                     className="rounded-lg px-6 py-4 hover:bg-[#FFF5FA]"
                     aria-label="Full name"
-                    onChange={(e) => {
+                    onChange={e => {
                       field.onChange(e);
                       syncToParent("fullName", e.target.value);
                     }}
@@ -122,11 +119,9 @@ export default function CardForm({
             name="position"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center gap-3 mb-2">
-                  <FormLabel className="text-sm text-[#4b001f]">
-                    Position
-                  </FormLabel>
-                  <span className="text-xs text-gray-400 rounded-full border border-gray-300 px-2 py-1">
+                <div className="mb-2 flex items-center gap-3">
+                  <FormLabel className="text-sm text-[#4b001f]">Position</FormLabel>
+                  <span className="rounded-full border border-gray-300 px-2 py-1 text-xs text-gray-400">
                     ?
                   </span>
                 </div>
@@ -137,7 +132,7 @@ export default function CardForm({
                     placeholder="e.g., UI/UX Designer"
                     className="rounded-lg px-6 py-4 hover:bg-[#FFF5FA]"
                     aria-label="Position"
-                    onChange={(e) => {
+                    onChange={e => {
                       field.onChange(e);
                       syncToParent("position", e.target.value);
                     }}
@@ -164,7 +159,7 @@ export default function CardForm({
                     type="email"
                     className="rounded-lg px-6 py-4 hover:bg-[#FFF5FA]"
                     aria-label="Email address"
-                    onChange={(e) => {
+                    onChange={e => {
                       field.onChange(e);
                       syncToParent("email", e.target.value);
                     }}
@@ -180,11 +175,9 @@ export default function CardForm({
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center gap-3 mb-2">
-                  <FormLabel className="text-sm text-[#4b001f]">
-                    Phone Number
-                  </FormLabel>
-                  <span className="text-xs text-gray-400 rounded-full border border-gray-300 px-2 py-1">
+                <div className="mb-2 flex items-center gap-3">
+                  <FormLabel className="text-sm text-[#4b001f]">Phone Number</FormLabel>
+                  <span className="rounded-full border border-gray-300 px-2 py-1 text-xs text-gray-400">
                     ?
                   </span>
                 </div>
@@ -196,7 +189,7 @@ export default function CardForm({
                     type="tel"
                     className="rounded-lg px-6 py-4 hover:bg-[#FFF5FA]"
                     aria-label="Phone number"
-                    onChange={(e) => {
+                    onChange={e => {
                       field.onChange(e);
                       syncToParent("phone", e.target.value);
                     }}
@@ -208,7 +201,11 @@ export default function CardForm({
           />
 
           <div className="mt-6 flex justify-end">
-            <Button type="submit" className="rounded-full px-8 py-3 " disabled={!form.formState.isValid}>
+            <Button
+              type="submit"
+              className="rounded-full px-8 py-3"
+              disabled={!form.formState.isValid}
+            >
               Save Card
             </Button>
           </div>

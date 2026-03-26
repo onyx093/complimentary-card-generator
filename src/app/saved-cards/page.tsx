@@ -2,29 +2,15 @@ import { FileText } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { getCardHistory } from "@/app/actions/history";
 import { getCardTemplates } from "@/app/actions/templates";
+import { getTemplateLabel } from "@/lib/utils";
+import { getSavedCardsByUser } from "../actions/cards";
 
 export default async function SavedCardsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
-  const [groups, templates] = session
-    ? await Promise.all([getCardHistory(session.user.id), getCardTemplates()])
+  const [savedCards, templates] = session
+    ? await Promise.all([getSavedCardsByUser(session.user.id), getCardTemplates()])
     : [[], []];
-
-  const templateMap = new Map<string, string>(
-    templates.map((template: { id: string; name: string }) => [
-      template.id,
-      template.name,
-    ]) as [string, string][]
-  );
-
-  const getTemplateLabel = (templateId?: string): string => {
-    if (!templateId) {
-      return "Template";
-    }
-
-    return templateMap.get(templateId) || templateId;
-  };
 
   const escapeXml = (value?: string): string => {
     const safeValue = value ?? "";
@@ -49,7 +35,7 @@ export default async function SavedCardsPage() {
     company?: string;
     address?: string;
   }): string => {
-    const templateName = getTemplateLabel(entry.template_id).toLowerCase();
+    const templateName = getTemplateLabel(templates, entry.template_id).toLowerCase();
 
     const fullName = escapeXml(entry.full_name || "Your Name");
     const position = escapeXml(entry.position || "Your Position");
@@ -61,49 +47,46 @@ export default async function SavedCardsPage() {
     );
 
     if (templateName.includes("modern")) {
-      return `
-<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="600" viewBox="0 0 1050 600">
-  <rect width="1050" height="300" fill="#FFFFFF" />
-  <rect y="300" width="1050" height="300" fill="#1e293b" />
-  <text x="990" y="140" text-anchor="end" font-size="54" font-family="Arial, sans-serif" fill="#1e293b" font-weight="700">${fullName}</text>
-  <text x="990" y="190" text-anchor="end" font-size="30" font-family="Arial, sans-serif" fill="#3b82f6">${position}</text>
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="600" viewBox="0 0 1050 600">
+        <rect width="1050" height="300" fill="#FFFFFF" />
+        <rect y="300" width="1050" height="300" fill="#1e293b" />
+        <text x="990" y="140" text-anchor="end" font-size="54" font-family="Arial, sans-serif" fill="#1e293b" font-weight="700">${fullName}</text>
+        <text x="990" y="190" text-anchor="end" font-size="30" font-family="Arial, sans-serif" fill="#3b82f6">${position}</text>
 
-  <text x="60" y="390" font-size="26" font-family="Arial, sans-serif" fill="#FFFFFF">📞 ${phone}</text>
-  <text x="60" y="440" font-size="26" font-family="Arial, sans-serif" fill="#FFFFFF">✉ ${email}</text>
-  <text x="60" y="490" font-size="22" font-family="Arial, sans-serif" fill="#FFFFFF">📍 ${address}</text>
-  <text x="990" y="560" text-anchor="end" font-size="24" font-family="Arial, sans-serif" fill="#FFFFFF">${company}</text>
-</svg>`;
+        <text x="60" y="390" font-size="26" font-family="Arial, sans-serif" fill="#FFFFFF">📞 ${phone}</text>
+        <text x="60" y="440" font-size="26" font-family="Arial, sans-serif" fill="#FFFFFF">✉ ${email}</text>
+        <text x="60" y="490" font-size="22" font-family="Arial, sans-serif" fill="#FFFFFF">📍 ${address}</text>
+        <text x="990" y="560" text-anchor="end" font-size="24" font-family="Arial, sans-serif" fill="#FFFFFF">${company}</text>
+      </svg>`;
     }
 
     if (templateName.includes("minimalist")) {
-      return `
-<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="600" viewBox="0 0 1050 600">
-  <rect width="1050" height="600" fill="#FFFFFF" />
-  <text x="980" y="70" text-anchor="end" font-size="24" font-family="Arial, sans-serif" fill="#19213D">${company}</text>
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="600" viewBox="0 0 1050 600">
+        <rect width="1050" height="600" fill="#FFFFFF" />
+        <text x="980" y="70" text-anchor="end" font-size="24" font-family="Arial, sans-serif" fill="#19213D">${company}</text>
 
-  <text x="70" y="430" font-size="52" font-family="Arial, sans-serif" fill="#19213D" font-weight="700">${fullName}</text>
-  <text x="70" y="470" font-size="28" font-family="Arial, sans-serif" fill="#f87171">${position}</text>
-  <line x1="70" y1="490" x2="520" y2="490" stroke="#D1D5DB" stroke-width="2" />
+        <text x="70" y="430" font-size="52" font-family="Arial, sans-serif" fill="#19213D" font-weight="700">${fullName}</text>
+        <text x="70" y="470" font-size="28" font-family="Arial, sans-serif" fill="#f87171">${position}</text>
+        <line x1="70" y1="490" x2="520" y2="490" stroke="#D1D5DB" stroke-width="2" />
 
-  <text x="70" y="530" font-size="24" font-family="Arial, sans-serif" fill="#19213D">📞 ${phone}</text>
-  <text x="70" y="565" font-size="24" font-family="Arial, sans-serif" fill="#19213D">✉ ${email}</text>
-  <text x="70" y="595" font-size="20" font-family="Arial, sans-serif" fill="#19213D">📍 ${address}</text>
-</svg>`;
+        <text x="70" y="530" font-size="24" font-family="Arial, sans-serif" fill="#19213D">📞 ${phone}</text>
+        <text x="70" y="565" font-size="24" font-family="Arial, sans-serif" fill="#19213D">✉ ${email}</text>
+        <text x="70" y="595" font-size="20" font-family="Arial, sans-serif" fill="#19213D">📍 ${address}</text>
+      </svg>`;
     }
 
-    return `
-<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="600" viewBox="0 0 1050 600">
-  <rect width="1050" height="600" fill="#19213D" />
-  <rect x="420" y="0" width="630" height="600" fill="#1f2a4d" />
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="600" viewBox="0 0 1050 600">
+      <rect width="1050" height="600" fill="#19213D" />
+      <rect x="420" y="0" width="630" height="600" fill="#1f2a4d" />
 
-  <text x="70" y="280" font-size="56" font-family="Arial, sans-serif" fill="#FFFFFF" font-weight="700">${fullName}</text>
-  <text x="70" y="330" font-size="30" font-family="Arial, sans-serif" fill="#FFFFFF">${position}</text>
+      <text x="70" y="280" font-size="56" font-family="Arial, sans-serif" fill="#FFFFFF" font-weight="700">${fullName}</text>
+      <text x="70" y="330" font-size="30" font-family="Arial, sans-serif" fill="#FFFFFF">${position}</text>
 
-  <text x="980" y="160" text-anchor="end" font-size="24" font-family="Arial, sans-serif" fill="#FFFFFF">${company}</text>
-  <text x="980" y="430" text-anchor="end" font-size="26" font-family="Arial, sans-serif" fill="#FFFFFF">${phone}</text>
-  <text x="980" y="470" text-anchor="end" font-size="24" font-family="Arial, sans-serif" fill="#FFFFFF">${email}</text>
-  <text x="980" y="515" text-anchor="end" font-size="20" font-family="Arial, sans-serif" fill="#FFFFFF">${address}</text>
-</svg>`;
+      <text x="980" y="160" text-anchor="end" font-size="24" font-family="Arial, sans-serif" fill="#FFFFFF">${company}</text>
+      <text x="980" y="430" text-anchor="end" font-size="26" font-family="Arial, sans-serif" fill="#FFFFFF">${phone}</text>
+      <text x="980" y="470" text-anchor="end" font-size="24" font-family="Arial, sans-serif" fill="#FFFFFF">${email}</text>
+      <text x="980" y="515" text-anchor="end" font-size="20" font-family="Arial, sans-serif" fill="#FFFFFF">${address}</text>
+    </svg>`;
   };
 
   return (
@@ -123,20 +106,20 @@ export default async function SavedCardsPage() {
           Saved Cards History
         </h2>
 
-        {groups.length === 0 ? (
+        {savedCards.length === 0 ? (
           <p className="py-8 text-center text-sm text-[#615A5D]">
             No download history yet.
           </p>
         ) : (
           <div className="space-y-6">
-            {groups.map(group => (
-              <div key={group.date}>
+            {savedCards.map(savedCard => (
+              <div key={savedCard.date}>
                 {/* Date label */}
-                <p className="mb-3 text-xs text-[#615A5D]">{group.date}</p>
+                <p className="mb-3 text-xs text-[#615A5D]">{savedCard.date}</p>
 
                 {/* Entries */}
                 <div className="space-y-2">
-                  {group.entries.map(entry => (
+                  {savedCard.entries.map(entry => (
                     <div
                       key={entry.id}
                       className="flex items-center justify-between rounded-xl bg-[#FAFAFA] px-4 py-3 transition hover:bg-[#FFF5FA]"
@@ -149,7 +132,7 @@ export default async function SavedCardsPage() {
 
                         <div className="flex flex-col">
                           <span className="text-sm font-medium text-[#28171E]">
-                            {getTemplateLabel(entry.template_id)}
+                            {getTemplateLabel(templates, entry.template_id)}
                           </span>
                           <span className="text-xs text-[#615A5D]">
                             {entry.full_name}

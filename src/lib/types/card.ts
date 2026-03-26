@@ -8,7 +8,7 @@ export type CardFormData = {
   website?: string;
 };
 
-export type SavedCards = {
+export type SavedCard = {
   template_id: string;
   user_id: string;
   full_name: string;
@@ -18,11 +18,11 @@ export type SavedCards = {
   created_at: string;
   updated_at: string;
   id: string;
-}
+};
 
 export type SavedCardGroup = {
   date: string;
-  entries: SavedCards[];
+  entries: SavedCard[];
 };
 
 export type SaveCardPayload = {
