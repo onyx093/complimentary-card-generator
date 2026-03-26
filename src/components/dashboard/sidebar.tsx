@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import Image from 'next/image';
-import { Links } from '@/lib/enums/links';
-import { Logout } from '../logout';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { Links } from "@/lib/enums/links";
 import {
   Sidebar,
   SidebarContent,
@@ -14,9 +13,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '../ui/sidebar';
+} from "../ui/sidebar";
 
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 type AppSidebarProps = {
   user: {
@@ -33,13 +32,20 @@ type AppSidebarProps = {
 export default function AppSidebar({ user }: AppSidebarProps) {
   const pathname = usePathname();
 
-  const isActive = (route: string) =>
-    pathname === route ? 'bg-white text-[#4B001F]' : 'text-white';
+  const active = (route: string) => pathname === route;
+
+  // CSS filters to tint SVG images to the target colors:
+  // active  → #4B001F (dark maroon, shown on white bg)
+  // inactive → #FFF5FA (near-white, shown on dark bg)
+  const activeIconFilter =
+    "brightness(0) saturate(100%) invert(8%) sepia(80%) saturate(3000%) hue-rotate(315deg) brightness(60%)";
+  const inactiveIconFilter =
+    "brightness(0) saturate(100%) invert(97%) sepia(6%) saturate(400%) hue-rotate(280deg) brightness(105%)";
 
   return (
-    <div className="h-screen">
-      <Sidebar className="w-65 min-h-screen sticky top-0 bg-linear-to-b from-[#4B001F] to-[#2A000F] px-6 py-8">
-        <h1 className="text-white text-xl font-bold mb-10">Cardify</h1>
+    <>
+      <Sidebar className="w-65 bg-linear-to-b from-[#4B001F] to-[#2A000F] px-6 py-8">
+        <h1 className="mb-10 text-xl font-bold text-white">Cardify</h1>
         <SidebarHeader />
 
         <SidebarContent>
@@ -48,26 +54,46 @@ export default function AppSidebar({ user }: AppSidebarProps) {
               <SidebarMenuButton asChild>
                 <Link
                   href={Links.DASHBOARD}
-                  className={`flex gap-2 px-4 py-2 rounded-full transition ${isActive(
-                    Links.DASHBOARD,
-                  )}`}>
+                  className={`flex gap-2 rounded-full px-4 py-2 transition ${
+                    active(Links.DASHBOARD) ? "bg-white text-[#4B001F]" : "text-[#FFF5FA]"
+                  }`}
+                >
                   <Image
                     src="/menu-icon.svg"
                     alt="menu icon"
                     width={24}
                     height={24}
+                    style={{
+                      filter: active(Links.DASHBOARD)
+                        ? activeIconFilter
+                        : inactiveIconFilter,
+                    }}
                   />
                   Create Card
                 </Link>
               </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Logout
-                  classes={`flex gap-2 px-4 py-2 rounded-full transition ${isActive(
-                    Links.LOGOUT,
-                  )}`}
-                />
+                <Link
+                  href={Links.SAVED_CARDS}
+                  className={`flex gap-2 rounded-full px-4 py-2 transition ${
+                    active(Links.SAVED_CARDS)
+                      ? "bg-white text-[#4B001F]"
+                      : "text-[#FFF5FA]"
+                  }`}
+                >
+                  <Image
+                    src="/download-icon.svg"
+                    alt="download icon"
+                    width={24}
+                    height={24}
+                    style={{
+                      filter: active(Links.SAVED_CARDS)
+                        ? activeIconFilter
+                        : inactiveIconFilter,
+                    }}
+                  />
+                  Saved Cards
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -84,12 +110,13 @@ export default function AppSidebar({ user }: AppSidebarProps) {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter> */}
-        <SidebarFooter className="border-2 border-white rounded-lg p-2 bg-accent">
+        <SidebarFooter className="bg-accent rounded-lg border-2 border-white p-2">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.image ?? undefined} alt={user.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
@@ -103,6 +130,6 @@ export default function AppSidebar({ user }: AppSidebarProps) {
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-    </div>
+    </>
   );
 }

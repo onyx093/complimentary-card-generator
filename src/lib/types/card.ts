@@ -7,3 +7,25 @@ export type CardFormData = {
   address?: string;
   website?: string;
 };
+
+export type SavedCard = {
+  template_id: string;
+  user_id: string;
+  full_name: string;
+  position: string;
+  phone_number: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+  id: string;
+};
+
+export type SavedCardGroup = {
+  date: string;
+  entries: SavedCard[];
+};
+
+export type SaveCardPayload = {
+  templateId: string;
+  formData: CardFormData;
+};
