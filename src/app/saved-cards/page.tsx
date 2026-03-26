@@ -96,7 +96,7 @@ export default async function SavedCardsPage() {
         <h1 className="text-2xl font-semibold text-[#28171E]">Saved Cards</h1>
         <p className="mt-1 text-sm text-[#615A5D]">
           Your previously generated cards are saved here. You can view, edit, or download
-          them at any time.
+          them at some time.
         </p>
       </div>
 
