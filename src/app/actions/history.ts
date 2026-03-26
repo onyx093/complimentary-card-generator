@@ -1,18 +1,15 @@
 "use server";
 
 import { BACKEND_URL } from "@/lib/constants";
-import {SaveCardPayload, SavedCardGroup, SavedCards} from "@/lib/types/card";
+import { SaveCardPayload, SavedCardGroup, SavedCards } from "@/lib/types/card";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 export async function getCardHistory(userId: string): Promise<SavedCardGroup[]> {
-  const response = await fetch(
-    `${BACKEND_URL}/cards/users/${userId}`,
-    {
-      cache: "no-store",
-    },
-  );
+  const response = await fetch(`${BACKEND_URL}/cards/users/${userId}`, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
     return [];
