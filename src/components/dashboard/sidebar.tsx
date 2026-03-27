@@ -16,6 +16,7 @@ import {
 } from "../ui/sidebar";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Logout } from "../logout";
 
 type AppSidebarProps = {
   user: {
@@ -49,13 +50,15 @@ export default function AppSidebar({ user }: AppSidebarProps) {
         <SidebarHeader />
 
         <SidebarContent>
-          <SidebarMenu className="space-y-4">
+          <SidebarMenu className="space-y-1 p-2">
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <Link
                   href={Links.DASHBOARD}
-                  className={`flex gap-2 rounded-full px-4 py-2 transition ${
-                    active(Links.DASHBOARD) ? "bg-white text-[#4B001F]" : "text-[#FFF5FA]"
+                  className={`flex gap-2 px-4 py-2 transition ${
+                    active(Links.DASHBOARD)
+                      ? "bg-white text-[#4B001F] hover:bg-white hover:text-[#4B001F]"
+                      : "text-[#FFF5FA] hover:bg-transparent hover:text-white hover:ring-1 hover:ring-white"
                   }`}
                 >
                   <Image
@@ -72,13 +75,15 @@ export default function AppSidebar({ user }: AppSidebarProps) {
                   Create Card
                 </Link>
               </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <Link
                   href={Links.SAVED_CARDS}
-                  className={`flex gap-2 rounded-full px-4 py-2 transition ${
+                  className={`flex gap-2 px-4 py-2 transition ${
                     active(Links.SAVED_CARDS)
-                      ? "bg-white text-[#4B001F]"
-                      : "text-[#FFF5FA]"
+                      ? "bg-white text-[#4B001F] hover:bg-white hover:text-[#4B001F]"
+                      : "text-[#FFF5FA] hover:bg-transparent hover:text-white hover:ring-1 hover:ring-white"
                   }`}
                 >
                   <Image
@@ -94,6 +99,17 @@ export default function AppSidebar({ user }: AppSidebarProps) {
                   />
                   Saved Cards
                 </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Logout
+                  classes={`flex gap-2 px-4 py-2 transition ${
+                    active(Links.LOGOUT)
+                      ? "bg-white text-[#4B001F] hover:bg-white hover:text-[#4B001F]"
+                      : "text-[#FFF5FA] hover:bg-transparent hover:text-white hover:ring-1 hover:ring-white"
+                  }`}
+                />
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
