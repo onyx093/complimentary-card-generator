@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { authClient } from "./auth-client";
+import { CardTemplate } from "./types/card-templates";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -23,12 +24,12 @@ export const templateMap = (templates: { id: string; name: string }[]) => {
 };
 
 export const getTemplateLabel = (
-  templateMap: Map<string, string>,
+  templates: CardTemplate[],
   templateId?: string
 ): string => {
   if (!templateId) {
     return "Template";
   }
 
-  return templateMap.get(templateId) || templateId;
+  return templateMap(templates).get(templateId) || templateId;
 };
