@@ -1,59 +1,98 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Header from '@/components/dashboard/header';
-import CardForm from '@/components/dashboard/card-form';
-import TemplateGallery from '@/components/dashboard/template-gallery';
-import QuickPreview from '@/components/dashboard/quick-preview';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Header from "@/components/dashboard/header";
+import CardForm from "@/components/dashboard/card-form";
+import TemplateGallery from "@/components/dashboard/template-gallery";
+import QuickPreview from "@/components/dashboard/quick-preview";
+import { saveCardForUser } from "@/app/actions/cards";
+import { formSchema } from "@/lib/schema";
+import { Links } from "@/lib/enums/links";
 
-import { CardTemplate } from '@/lib/types/card-templates';
-import { CardFormData } from '@/lib/types/card';
+import { CardTemplate } from "@/lib/types/card-templates";
+import { CardFormData } from "@/lib/types/card";
 
 type DashboardPageProps = {
   templates: CardTemplate[];
 };
 
 export default function DashboardPage({ templates }: DashboardPageProps) {
+  const router = useRouter();
   const [isActive, setIsActive] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<CardFormData>({
-    fullName: '',
-    position: '',
-    email: '',
-    phone: '',
-    company: '',
-    address: '',
-    website: '',
+    fullName: "",
+    position: "",
+    email: "",
+    phone: "",
+    company: "",
+    address: "",
+    website: "",
   });
 
-  const [selectedTemplate, setSelectedTemplate] = useState<CardTemplate | null>(
-    null,
-  );
+  const [selectedTemplate, setSelectedTemplate] = useState<CardTemplate | null>(null);
+
+  async function handleSaveCard() {
+    setSaveError(null);
+
+    if (!selectedTemplate) {
+      setSaveError("Select a template before saving your card.");
+      return;
+    }
+
+    const parsed = formSchema.safeParse(formData);
+    if (!parsed.success) {
+      const firstError = parsed.error.issues[0]?.message;
+      setSaveError(firstError ?? "Please complete the form before saving.");
+      return;
+    }
+
+    setIsSaving(true);
+
+    const result = await saveCardForUser({
+      templateId: selectedTemplate.id,
+      formData: {
+        ...formData,
+        ...parsed.data,
+      },
+    });
+
+    setIsSaving(false);
+
+    if (!result.success) {
+      setSaveError(result.error ?? "Unable to save card. Please try again.");
+      return;
+    }
+
+    router.push(Links.SAVED_CARDS);
+  }
 
   return (
     <>
       <Header />
 
-      <div className="container mx-auto px-4 mt-6">
-        <div className="flex flex-col lg:flex-row gap-6 min-h-screen items-stretch">
+      <div className="container mx-auto mt-6 px-4">
+        <div className="flex min-h-screen flex-col items-stretch gap-6 lg:flex-row">
           {/* LEFT — FORM (40%) */}
           <div className="w-full lg:w-2/5">
-            <div className="bg-white p-6 rounded-xl shadow h-full">
+            <div className="h-full rounded-xl bg-white p-6 shadow">
               <CardForm
                 formData={formData}
                 setFormData={setFormData}
                 setIsActive={setIsActive}
-                selectedTemplate={selectedTemplate}
               />
             </div>
           </div>
 
           {/* RIGHT — Templates + Preview (60%) */}
           <div className="w-full lg:w-3/5">
-            <div className="bg-white p-6 rounded-xl shadow flex flex-col h-full gap-6">
+            <div className="flex h-full flex-col gap-6 rounded-xl bg-white p-6 shadow">
               {/* Templates */}
               <div>
-                <h3 className="text-lg font-medium mb-4">Templates</h3>
+                <h3 className="mb-4 text-lg font-medium">Templates</h3>
                 <TemplateGallery
                   templates={templates}
                   selectedTemplate={selectedTemplate}
@@ -66,13 +105,16 @@ export default function DashboardPage({ templates }: DashboardPageProps) {
               <div className="border-t border-gray-100" />
 
               {/* Quick Preview */}
-              <div className="flex-1 flex flex-col">
-                <h3 className="text-lg font-medium mb-4">Quick Preview</h3>
+              <div className="flex flex-1 flex-col">
+                <h3 className="mb-4 text-lg font-medium">Quick Preview</h3>
 
                 <div className="flex-1">
                   <QuickPreview
                     formData={formData}
                     selectedTemplate={selectedTemplate}
+                    onSaveCard={handleSaveCard}
+                    isSaving={isSaving}
+                    saveError={saveError}
                   />
                 </div>
               </div>
