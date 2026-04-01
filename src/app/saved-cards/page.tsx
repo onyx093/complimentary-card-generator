@@ -1,10 +1,10 @@
-import { FileText } from "lucide-react";
+import { FileText, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { getCardTemplates } from "@/app/actions/templates";
 import { getTemplateLabel } from "@/lib/utils";
-import { getSavedCardsByUser } from "../actions/cards";
+import { deleteSavedCardForUser, getSavedCardsByUser } from "../actions/cards";
 
 export default async function SavedCardsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -119,45 +119,61 @@ export default async function SavedCardsPage() {
 
                 {/* Entries */}
                 <div className="space-y-2">
-                  {savedCard.entries.map(entry => (
-                    <div
-                      key={entry.id}
-                      className="flex items-center justify-between rounded-xl bg-[#FAFAFA] px-4 py-3 transition hover:bg-[#FFF5FA]"
-                    >
-                      <div className="flex items-center gap-3">
-                        {/* Icon */}
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4B001F]">
-                          <FileText className="h-4 w-4 text-white" />
+                  {savedCard.entries.map(entry => {
+                    const deleteCardAction = deleteSavedCardForUser.bind(
+                      null,
+                      String(entry.id)
+                    );
+
+                    return (
+                      <div key={entry.id} className="flex items-center gap-4">
+                        <div className="flex flex-1 items-center justify-between rounded-xl bg-[#FAFAFA] px-4 py-3 transition hover:bg-[#FFF5FA]">
+                          <div className="flex items-center gap-3">
+                            {/* Icon */}
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4B001F]">
+                              <FileText className="h-4 w-4 text-white" />
+                            </div>
+
+                            <div className="flex flex-col">
+                              <span className="text-sm font-medium text-[#28171E]">
+                                {getTemplateLabel(templates, entry.template_id)}
+                              </span>
+                              <span className="text-xs text-[#615A5D]">
+                                {entry.full_name}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Actions */}
+                          <div className="flex items-center gap-4">
+                            <Link
+                              href={`/dashboard?edit=${entry.id}`}
+                              className="text-sm font-medium text-[#4B001F] hover:underline"
+                            >
+                              Edit
+                            </Link>
+                            <a
+                              href={toDataUri(buildCardSvg(entry))}
+                              download={`${entry.full_name.replace(/\s+/g, "-").toLowerCase()}-card.svg`}
+                              className="text-sm font-medium text-[#4B001F] hover:underline"
+                            >
+                              Download
+                            </a>
+                          </div>
                         </div>
 
-                        <div className="flex flex-col">
-                          <span className="text-sm font-medium text-[#28171E]">
-                            {getTemplateLabel(templates, entry.template_id)}
-                          </span>
-                          <span className="text-xs text-[#615A5D]">
-                            {entry.full_name}
-                          </span>
-                        </div>
+                        <form action={deleteCardAction} className="shrink-0">
+                          <button
+                            type="submit"
+                            aria-label={`Delete ${entry.full_name} card`}
+                            className="flex h-12 w-14 items-center justify-center rounded-xl border border-[#F1EAED] bg-white text-[#4B001F] transition hover:bg-[#4B001F] hover:text-white focus-visible:bg-[#4B001F] focus-visible:text-white focus-visible:outline-none active:bg-[#4B001F] active:text-white"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </form>
                       </div>
-
-                      {/* Actions */}
-                      <div className="flex items-center gap-4">
-                        <Link
-                          href={`/dashboard?edit=${entry.id}`}
-                          className="text-sm font-medium text-[#4B001F] hover:underline"
-                        >
-                          Edit
-                        </Link>
-                        <a
-                          href={toDataUri(buildCardSvg(entry))}
-                          download={`${entry.full_name.replace(/\s+/g, "-").toLowerCase()}-card.svg`}
-                          className="text-sm font-medium text-[#4B001F] hover:underline"
-                        >
-                          Download
-                        </a>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))}

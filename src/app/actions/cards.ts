@@ -67,3 +67,24 @@ export async function saveCardForUser(payload: SaveCardPayload) {
   revalidatePath(Links.SAVED_CARDS);
   return { success: true };
 }
+
+export async function deleteSavedCardForUser(cardId: string): Promise<void> {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session?.user?.id) {
+    return;
+  }
+
+  const response = await fetch(
+    `${BACKEND_URL}/cards/${encodeURIComponent(cardId)}/users/${encodeURIComponent(session.user.id)}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  if (!response.ok) {
+    return;
+  }
+
+  revalidatePath(Links.SAVED_CARDS);
+}
