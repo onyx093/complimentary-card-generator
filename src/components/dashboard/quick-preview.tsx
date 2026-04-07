@@ -9,6 +9,7 @@ type Props = {
   onSaveCard: () => Promise<void>;
   isSaving: boolean;
   saveError: string | null;
+  actionLabel: string;
 };
 
 export default function QuickPreview({
@@ -17,6 +18,7 @@ export default function QuickPreview({
   onSaveCard,
   isSaving,
   saveError,
+  actionLabel,
 }: Props) {
   return (
     <div className="space-y-4">
@@ -34,7 +36,7 @@ export default function QuickPreview({
         onClick={onSaveCard}
         disabled={!selectedTemplate || isSaving}
       >
-        {isSaving ? "Saving..." : "Save Card"}
+        {isSaving ? "Saving..." : actionLabel}
       </Button>
 
       {saveError && <p className="text-sm text-red-600">{saveError}</p>}

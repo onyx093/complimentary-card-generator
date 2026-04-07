@@ -6,34 +6,54 @@ import Header from "@/components/dashboard/header";
 import CardForm from "@/components/dashboard/card-form";
 import TemplateGallery from "@/components/dashboard/template-gallery";
 import QuickPreview from "@/components/dashboard/quick-preview";
-import { saveCardForUser } from "@/app/actions/cards";
+import { saveCardForUser, updateCardForUser } from "@/app/actions/cards";
 import { formSchema } from "@/lib/schema";
 import { Links } from "@/lib/enums/links";
 
 import { CardTemplate } from "@/lib/types/card-templates";
-import { CardFormData } from "@/lib/types/card";
+import { CardFormData, SavedCard } from "@/lib/types/card";
 
 type DashboardPageProps = {
   templates: CardTemplate[];
+  initialCard?: SavedCard | null;
 };
 
-export default function DashboardPage({ templates }: DashboardPageProps) {
+const emptyFormData: CardFormData = {
+  fullName: "",
+  position: "",
+  email: "",
+  phone: "",
+  company: "",
+  address: "",
+  website: "",
+};
+
+export default function DashboardPage({ templates, initialCard }: DashboardPageProps) {
   const router = useRouter();
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(Boolean(initialCard));
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState<CardFormData>({
-    fullName: "",
-    position: "",
-    email: "",
-    phone: "",
-    company: "",
-    address: "",
-    website: "",
-  });
+  const [formData, setFormData] = useState<CardFormData>(
+    initialCard
+      ? {
+          fullName: initialCard.full_name ?? "",
+          position: initialCard.position ?? "",
+          email: initialCard.email ?? "",
+          phone: initialCard.phone_number ?? "",
+          company: initialCard.company ?? "",
+          address: initialCard.address ?? "",
+          website: initialCard.website ?? "",
+        }
+      : emptyFormData
+  );
 
-  const [selectedTemplate, setSelectedTemplate] = useState<CardTemplate | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<CardTemplate | null>(
+    initialCard
+      ? (templates.find(template => template.id === initialCard.template_id) ?? null)
+      : null
+  );
+  const isEditMode = Boolean(initialCard);
 
   async function handleSaveCard() {
     setSaveError(null);
@@ -52,13 +72,18 @@ export default function DashboardPage({ templates }: DashboardPageProps) {
 
     setIsSaving(true);
 
-    const result = await saveCardForUser({
+    const payload = {
       templateId: selectedTemplate.id,
       formData: {
         ...formData,
         ...parsed.data,
       },
-    });
+    };
+
+    const result =
+      isEditMode && initialCard
+        ? await updateCardForUser(initialCard.id, payload)
+        : await saveCardForUser(payload);
 
     setIsSaving(false);
 
@@ -115,6 +140,7 @@ export default function DashboardPage({ templates }: DashboardPageProps) {
                     onSaveCard={handleSaveCard}
                     isSaving={isSaving}
                     saveError={saveError}
+                    actionLabel={isEditMode ? "Update Card" : "Save Card"}
                   />
                 </div>
               </div>
