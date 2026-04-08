@@ -1,7 +1,10 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
+import { API_ROUTE_PREFIX, publicRoutes } from "../routes";
+import { Links } from "./lib/enums/links";
 
 export async function proxy(request: NextRequest) {
-  /* const sessionCookie = getSessionCookie(request);
+  const sessionCookie = getSessionCookie(request);
   // THIS IS NOT SECURE!
   // This is the recommended approach to optimistically redirect users
   // We recommend handling auth checks in each page/route
@@ -24,7 +27,7 @@ export async function proxy(request: NextRequest) {
 
   const response = NextResponse.next();
   response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
-  return response; */
+  return response;
 }
 
 export const config = {
