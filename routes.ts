@@ -1,4 +1,4 @@
-import { Links } from '@/lib/enums/links';
+import { Links } from "@/lib/enums/links";
 
 /**
  * Public routes are routes that are accessible to all users, regardless of whether they are authenticated or not.
@@ -8,7 +8,7 @@ import { Links } from '@/lib/enums/links';
 export const publicRoutes: string[] = [
   `${Links.HOME}`,
   `${Links.LOGIN}`,
-  /* `${Links.LOGOUT}`, */
+  `${Links.LOGOUT}`,
 ];
 
 export const protectedRoutes: string[] = [
@@ -21,4 +21,4 @@ export const protectedRoutes: string[] = [
  * The prefix for API routes.
  * @type {string}
  */
-export const API_ROUTE_PREFIX = '/api';
+export const API_ROUTE_PREFIX = "/api";
