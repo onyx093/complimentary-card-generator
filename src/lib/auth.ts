@@ -14,6 +14,7 @@ import {
 export const auth = betterAuth({
   baseURL: FRONTEND_URL,
   secret: SECRET_KEY,
+  trustedOrigins: [FRONTEND_URL],
   emailAndPassword: {
     enabled: true,
   },
