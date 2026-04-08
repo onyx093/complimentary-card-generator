@@ -1,9 +1,9 @@
 "use client";
 
+import { Links } from "@/lib/enums/links";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
-import { Links } from "@/lib/enums/links";
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +16,6 @@ import {
 } from "../ui/sidebar";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Logout } from "../logout";
 
 type AppSidebarProps = {
   user: {
