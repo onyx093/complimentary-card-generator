@@ -14,6 +14,9 @@ export default async function DashboardLayout({
     headers: await headers(),
   });
 
+  console.log("Session user:", session?.user);
+  console.log("Session session:", session?.session);
+
   if (!session) {
     return redirect(Links.LOGIN);
   }
@@ -26,7 +29,7 @@ export default async function DashboardLayout({
         </div>
 
         {/* Main Content Area */}
-        <main className="flex-1 p-4 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto p-4">
           <SidebarTrigger />
           {children}
         </main>
