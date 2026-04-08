@@ -15,6 +15,9 @@ export type SavedCard = {
   position: string;
   phone_number: string;
   email: string;
+  company?: string;
+  address?: string;
+  website?: string;
   created_at: string;
   updated_at: string;
   id: string;

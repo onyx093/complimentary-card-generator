@@ -101,17 +101,6 @@ export default function AppSidebar({ user }: AppSidebarProps) {
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Logout
-                  classes={`flex gap-2 px-4 py-2 transition ${
-                    active(Links.LOGOUT)
-                      ? "bg-white text-[#4B001F] hover:bg-white hover:text-[#4B001F]"
-                      : "text-[#FFF5FA] hover:bg-transparent hover:text-white hover:ring-1 hover:ring-white"
-                  }`}
-                />
-              </SidebarMenuButton>
-            </SidebarMenuItem>
           </SidebarMenu>
           <SidebarGroup />
           <SidebarGroup />
@@ -126,6 +115,20 @@ export default function AppSidebar({ user }: AppSidebarProps) {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter> */}
+        <SidebarMenu className="mb-2">
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Logout
+                classes={`flex w-full items-center gap-2 rounded-md px-4 py-2 transition ${
+                  active(Links.LOGOUT)
+                    ? "bg-white text-[#4B001F] hover:bg-white hover:text-[#4B001F]"
+                    : "text-[#FFF5FA] hover:bg-transparent hover:text-white hover:ring-1 hover:ring-white"
+                }`}
+              />
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
         <SidebarFooter className="bg-accent rounded-lg border-2 border-white p-2">
           <SidebarMenu>
             <SidebarMenuItem>

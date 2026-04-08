@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, type FormValues } from "@/lib/schema";
@@ -14,28 +13,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 import { CardFormData } from "@/lib/types/card";
-import { CardTemplate } from "@/lib/types/card-templates";
-import { saveCardForUser } from "@/app/actions/cards";
-import { Links } from "@/lib/enums/links";
 
 type Props = {
   formData: CardFormData;
   setFormData: React.Dispatch<React.SetStateAction<CardFormData>>;
   setIsActive: (v: boolean) => void;
-  selectedTemplate: CardTemplate | null;
 };
 
-export default function CardForm({
-  formData,
-  setFormData,
-  setIsActive,
-  selectedTemplate,
-}: Props) {
-  const router = useRouter();
-
+export default function CardForm({ formData, setFormData, setIsActive }: Props) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema) as unknown as Resolver<FormValues>,
     mode: "onChange",
@@ -46,35 +33,6 @@ export default function CardForm({
       phone: formData.phone ?? "",
     },
   });
-
-  async function onSubmit(values: FormValues) {
-    setFormData(values);
-    setIsActive(true);
-
-    if (!selectedTemplate) {
-      form.setError("root", {
-        message: "Select a template before saving your card.",
-      });
-      return;
-    }
-
-    const result = await saveCardForUser({
-      templateId: selectedTemplate.id,
-      formData: {
-        ...formData,
-        ...values,
-      },
-    });
-
-    if (!result.success) {
-      form.setError("root", {
-        message: result.error ?? "Unable to save card. Please try again.",
-      });
-      return;
-    }
-
-    router.push(Links.SAVED_CARDS);
-  }
 
   const syncToParent = (name: keyof FormValues, value: string) => {
     setFormData(prev => ({
@@ -89,7 +47,7 @@ export default function CardForm({
       <h3 className="mb-6 text-2xl font-semibold text-[#2b2b2b]">Personal Details</h3>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={e => e.preventDefault()} className="space-y-5">
           <FormField
             control={form.control}
             name="fullName"
@@ -199,20 +157,6 @@ export default function CardForm({
               </FormItem>
             )}
           />
-
-          <div className="mt-6 flex justify-end">
-            <Button
-              type="submit"
-              className="rounded-full px-8 py-3"
-              disabled={!form.formState.isValid}
-            >
-              Save Card
-            </Button>
-          </div>
-
-          {form.formState.errors.root?.message && (
-            <p className="text-sm text-red-600">{form.formState.errors.root.message}</p>
-          )}
         </form>
       </Form>
     </section>
