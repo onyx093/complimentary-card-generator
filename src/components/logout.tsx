@@ -4,13 +4,14 @@ import { authClient } from "@/lib/auth-client";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Links } from "@/lib/enums/links";
+import dynamic from "next/dynamic";
 
 export const handleLogout = async (router: ReturnType<typeof useRouter>) => {
   await authClient.signOut();
   router.push(Links.LOGIN);
 };
 
-export function Logout({ classes }: { classes?: string } = {}) {
+function LogoutButton({ classes }: { classes?: string } = {}) {
   const router = useRouter();
 
   return (
@@ -22,3 +23,7 @@ export function Logout({ classes }: { classes?: string } = {}) {
     </span>
   );
 }
+
+export const Logout = dynamic(() => Promise.resolve(LogoutButton), {
+  ssr: false,
+});

@@ -14,9 +14,6 @@ export default async function DashboardLayout({
     headers: await headers(),
   });
 
-  console.log("Session user:", session?.user);
-  console.log("Session session:", session?.session);
-
   if (!session) {
     return redirect(Links.LOGIN);
   }
