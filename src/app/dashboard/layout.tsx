@@ -1,9 +1,7 @@
 import AppSidebar from "@/components/dashboard/sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { auth } from "@/lib/auth";
-import { Links } from "@/lib/enums/links";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
   children,
@@ -14,15 +12,15 @@ export default async function DashboardLayout({
     headers: await headers(),
   });
 
-  if (!session) {
+  /* if (!session) {
     return redirect(Links.LOGIN);
-  }
+  } */
 
   return (
     <div className="flex bg-[#F7F4F5]">
       <SidebarProvider>
         <div className="hidden lg:block">
-          <AppSidebar user={session.user} />
+          <AppSidebar user={session?.user} />
         </div>
 
         {/* Main Content Area */}
