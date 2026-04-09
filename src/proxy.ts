@@ -3,7 +3,7 @@ import { getSessionCookie } from "better-auth/cookies";
 import { API_ROUTE_PREFIX, publicRoutes } from "../routes";
 import { Links } from "./lib/enums/links";
 
-export async function proxy(request: NextRequest) {
+export async function proxytude(request: NextRequest) {
   const sessionCookie = getSessionCookie(request);
   // THIS IS NOT SECURE!
   // This is the recommended approach to optimistically redirect users
