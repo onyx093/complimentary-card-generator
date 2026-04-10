@@ -32,9 +32,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       router.push(Links.LOGIN);
     }
 
-    if (session && isPublicRoute) {
+    /* if (session && isPublicRoute) {
       router.push(Links.DASHBOARD); // redirect logged-in users away from auth pages
-    }
+    } */
   }, [session, isPending, pathname, router]);
 
   return (
