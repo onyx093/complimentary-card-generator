@@ -1,6 +1,9 @@
-import { Links } from '@/lib/enums/links';
-import { redirect } from 'next/navigation';
+"use client";
+
+import { Links } from "@/lib/enums/links";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  redirect(Links.DASHBOARD);
+  const router = useRouter();
+  router.push(Links.DASHBOARD);
 }

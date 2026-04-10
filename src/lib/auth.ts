@@ -33,11 +33,11 @@ export const auth = betterAuth({
     },
   }),
   experimental: { joins: true },
-  plugins: [bearer(), nextCookies()],
   socialProviders: {
     google: {
       clientId: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
     },
   },
+  plugins: [bearer(), nextCookies()],
 });
