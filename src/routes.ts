@@ -5,11 +5,7 @@ import { Links } from "@/lib/enums/links";
  * @type {string[]}
  */
 
-export const publicRoutes: string[] = [
-  `${Links.HOME}`,
-  `${Links.LOGIN}`,
-  `${Links.LOGOUT}`,
-];
+export const publicRoutes: string[] = [`${Links.LOGIN}`];
 
 export const protectedRoutes: string[] = [
   `${Links.DASHBOARD}`,
