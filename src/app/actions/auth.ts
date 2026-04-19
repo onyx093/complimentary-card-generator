@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { BACKEND_URL, FRONTEND_URL } from "@/lib/constants";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 export async function loginWithGoogle(): Promise<void> {
   const redirectAfterLogin = `${FRONTEND_URL}/dashboard`;
@@ -14,7 +15,7 @@ export async function loginWithGoogle(): Promise<void> {
   redirect(googleAuthURL);
 }
 
-export async function checkAuthSession() {
+export const checkAuthSession = cache(async () => {
   const sessionData = await auth.api.getSession({
     headers: await headers(),
   });
@@ -22,9 +23,9 @@ export async function checkAuthSession() {
     return { isAuthenticated: false, sessionData: null };
   }
   return { isAuthenticated: true, sessionData };
-}
+});
 
-export async function getAuthSession() {
+export const getAuthSession = async () => {
   const { isAuthenticated, sessionData } = await checkAuthSession();
 
   if (!isAuthenticated) {
@@ -32,4 +33,4 @@ export async function getAuthSession() {
   }
 
   return sessionData;
-}
+};
