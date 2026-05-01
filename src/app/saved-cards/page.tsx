@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { getCardTemplates } from "@/app/actions/templates";
 import { getTemplateLabel } from "@/lib/utils";
 import { deleteSavedCardForUser, getSavedCardsByUser } from "../actions/cards";
+import DownloadPdfButton from "./download-pdf-button";
 
 export default async function SavedCardsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -20,10 +21,6 @@ export default async function SavedCardsPage() {
       .replace(/>/g, "&gt;")
       .replace(/\"/g, "&quot;")
       .replace(/'/g, "&#39;");
-  };
-
-  const toDataUri = (svg: string): string => {
-    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   };
 
   const buildCardSvg = (entry: {
@@ -152,13 +149,14 @@ export default async function SavedCardsPage() {
                             >
                               Edit
                             </Link>
-                            <a
-                              href={toDataUri(buildCardSvg(entry))}
-                              download={`${entry.full_name.replace(/\s+/g, "-").toLowerCase()}-card.svg`}
+                            <DownloadPdfButton
+                              svg={buildCardSvg(entry)}
+                              filenameBase={`${entry.full_name.replace(/\s+/g, "-").toLowerCase()}-card`}
                               className="text-sm font-medium text-[#4B001F] hover:underline"
-                            >
-                              Download
-                            </a>
+                              label={"Download"}
+                              widthPx={1050}
+                              heightPx={600}
+                            />
                           </div>
                         </div>
 
