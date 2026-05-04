@@ -26,7 +26,11 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
 
   return (
     <div>
-      <DashboardPage templates={templates} initialCard={initialCard} />
+      <DashboardPage
+        key={initialCard?.id ?? "new"}
+        templates={templates}
+        initialCard={initialCard}
+      />
     </div>
   );
 }

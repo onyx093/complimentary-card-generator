@@ -133,10 +133,10 @@ export default async function SavedCardsPage() {
 
                             <div className="flex flex-col">
                               <span className="text-sm font-medium text-[#28171E]">
-                                {getTemplateLabel(templates, entry.template_id)}
+                                {entry.full_name} - {entry.position}
                               </span>
                               <span className="text-xs text-[#615A5D]">
-                                {entry.full_name}
+                                {getTemplateLabel(templates, entry.template_id)}
                               </span>
                             </div>
                           </div>

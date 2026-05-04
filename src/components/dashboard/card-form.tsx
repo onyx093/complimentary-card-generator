@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, type FormValues } from "@/lib/schema";
@@ -33,6 +34,15 @@ export default function CardForm({ formData, setFormData, setIsActive }: Props) 
       phone: formData.phone ?? "",
     },
   });
+
+  useEffect(() => {
+    form.reset({
+      fullName: formData.fullName ?? "",
+      position: formData.position ?? "",
+      email: formData.email ?? "",
+      phone: formData.phone ?? "",
+    });
+  }, [form, formData]);
 
   const syncToParent = (name: keyof FormValues, value: string) => {
     setFormData(prev => ({
