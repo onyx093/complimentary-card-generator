@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { authClient } from "./auth-client";
+import { Links } from "./enums/links";
 import { CardTemplate } from "./types/card-templates";
 
 export function cn(...inputs: ClassValue[]) {
@@ -10,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
 export const signInWithGoogle = async () => {
   await authClient.signIn.social({
     provider: "google",
-    callbackURL: "/dashboard",
+    callbackURL: Links.DASHBOARD.toString(),
   });
 };
 

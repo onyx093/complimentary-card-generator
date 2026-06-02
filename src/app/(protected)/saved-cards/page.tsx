@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { getCardTemplates } from "@/app/actions/templates";
 import { getTemplateLabel } from "@/lib/utils";
-import { deleteSavedCardForUser, getSavedCardsByUser } from "../actions/cards";
+import { deleteSavedCardForUser, getSavedCardsByUser } from "../../actions/cards";
 import DownloadPdfButton from "./download-pdf-button";
 
 export default async function SavedCardsPage() {

@@ -1,12 +1,20 @@
-import { betterAuth } from 'better-auth';
-import { nextCookies } from 'better-auth/next-js';
-import { bearer } from 'better-auth/plugins';
-import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { db } from '@/db/drizzle';
-import { schema } from '@/db/schema';
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from './constants';
+import { betterAuth } from "better-auth";
+import { nextCookies } from "better-auth/next-js";
+import { bearer } from "better-auth/plugins";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { db } from "@/db/drizzle";
+import { schema } from "@/db/schema";
+import {
+  FRONTEND_URL,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  SECRET_KEY,
+} from "./constants";
 
 export const auth = betterAuth({
+  baseURL: FRONTEND_URL,
+  secret: SECRET_KEY,
+  trustedOrigins: [FRONTEND_URL],
   emailAndPassword: {
     enabled: true,
   },
@@ -18,18 +26,18 @@ export const auth = betterAuth({
   account: {},
   verification: {},
   database: drizzleAdapter(db, {
-    provider: 'pg',
+    provider: "pg",
     usePlural: true,
     schema: {
       ...schema,
     },
   }),
   experimental: { joins: true },
-  plugins: [bearer(), nextCookies()],
   socialProviders: {
     google: {
       clientId: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
     },
   },
+  plugins: [bearer(), nextCookies()],
 });

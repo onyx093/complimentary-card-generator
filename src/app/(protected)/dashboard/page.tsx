@@ -1,6 +1,6 @@
+import { getSavedCardForUser } from "@/app/actions/cards";
+import { getCardTemplates } from "@/app/actions/templates";
 import DashboardPage from "@/components/dashboard/dashboard-page";
-import { getCardTemplates } from "../actions/templates";
-import { getSavedCardForUser } from "../actions/cards";
 
 type DashboardProps = {
   searchParams?:
